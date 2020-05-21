@@ -8,49 +8,86 @@
     <script type="text/javascript" src="js/jquery/jquery-3.5.1.js"></script>
     <script language="JavaScript" type="text/JavaScript">
         $(document).ready(function () {
-            $('#BtnConvert').click(function () {
-                var nMum = $('#TxtMyNumber').val();
-
-                if (isNaN(nMum)) {
-                    $('#TxtMyNumber').addClass('borderRed'); alert('It requires numbers.');
-                } else {
-                    if (nMum < 0 || nMum > 255) {
-                        $('#TxtMyNumber').addClass('borderRed'); alert('The number must be between 0 and 255.');
-                    } else {
-                        $('#TxtMyNumber').removeClass('borderRed');
-                        NumConverToBinary(nMum);
-                    }
-                }
+            $('#BtnConvertToBinary').click(function () {
+                JsMsg.txtID = 'TxtMyNumber'; JsMsg.Msg = '';
+                var nMum = $('#' + JsMsg.txtID).val();
+                if (CheckText('1', nMum, JsMsg)) { NumConverToBinary(nMum); $('#' + JsMsg.txtID).removeClass('borderRed'); }
+            });
+            $('#BtnConvertToNumber').click(function () {
+                JsMsg.txtID = 'TxtMyBinary'; JsMsg.Msg = '';
+                var str = $('#' + JsMsg.txtID).val();
+                if (CheckText('2',str)) { BinaryConverToNum(str); $('#' + JsMsg.txtID).removeClass('borderRed');}
             });
         });
 
-        function NumConverToBinary(_myNum) {
-            var AryBinary = [128, 64, 32, 16, 8, 4, 2, 1];
+        // setting value
+        var JsMsg = { txtID: '', Msg: '' }
+        var AryNumber = [128, 64, 32, 16, 8, 4, 2, 1];
+
+        // functions
+        function NumConverToBinary(_myNum) {            
             var strB = '';
-            for (i = 0; i <= AryBinary.length - 1; i += 1) {
-                if (_myNum - AryBinary[i] >= 0) {
-                    _myNum = _myNum - AryBinary[i];
+            for (i = 0; i <= AryNumber.length - 1; i += 1) {
+                if (_myNum - AryNumber[i] >= 0) {
+                    _myNum = _myNum - AryNumber[i];
                     strB += 1;
                 } else {
                     strB += 0;
                 }
             }
             $('#divShow').html('The binary is "' + strB + '"');
-        }  
+        }
+
+        function BinaryConverToNum(_str) {
+
+
+        }
+
+        function CheckText(_type, _strChk, _JsMsg) {
+            //'1': 'Check input whether it is a number and whetger it is between 0 and 255'
+            //'2': 'Check input whether it is a binary number' 
+            switch (_type) {
+                case '1':
+                    if (isNaN(_strChk)) {
+                        _JsMsg.Msg = 'It requires a number.';
+                        $('#' + _JsMsg.txtID).addClass('borderRed'); $('#divShow').html(_JsMsg.Msg);
+                        return false;
+                    } else {
+                        if (_strChk < 0 || _strChk > 255) {
+                            _JsMsg.Msg = 'The number must be between 0 and 255.';
+                            $('#' + _JsMsg.txtID).addClass('borderRed'); $('#divShow').html(_JsMsg.Msg);
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                    break;
+                case '2':
+                    break;
+                default:
+            }
+        }
+
+          
     </script> 
 </head>
 <body >
     <br /><br />
     <table class="Grid" >
         <tr>
-            <th>
-                Number convert to Binary
-            </th>
+            <th>Number convert to Binary</th>
             <td>
                 <input id="TxtMyNumber" name="TxtMyNumber" style="width: 150px" type="text"/>
-                <input id="BtnConvert"  name="BtnConvert" class="btn" type="button" value="Convert" />                              
+                <input id="BtnConvertToBinary"  name="BtnConvertToBinary" class="btn" type="button" value="Convert" />                              
             </td>
         </tr>
+        <tr>
+            <th>Binary convert to Number</th>
+            <td>
+            <input id="TxtMyBinary" name="TxtMyBinary" style="width: 150px" type="text"/>
+            <input id="BtnConvertToNumber"  name="BtnConvertToNumber" class="btn" type="button" value="Convert" />                              
+            </td>
+        </tr>        
         <tr>
             <td colspan="2"><div id="divShow">Hello this world!</div></td>
         </tr>
