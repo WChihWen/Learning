@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Learning</title>
+    <link rel="stylesheet" type="text/css" href="mcss/Grid.css" />
+
+    <script type="text/javascript" src="js/jquery/jquery-3.5.1.js"></script>
+    <script language="JavaScript" type="text/JavaScript">
+        $(document).ready(function () {
+            $('#BtnConvert').click(function () {
+                var nMum = $('#TxtMyNumber').val();
+
+                if (isNaN(nMum)) {
+                    $('#TxtMyNumber').addClass('borderRed'); alert('It requires numbers.');
+                } else {
+                    if (nMum < 0 || nMum > 255) {
+                        $('#TxtMyNumber').addClass('borderRed'); alert('The number have to between 0 and 255.');
+                    } else {
+                        $('#TxtMyNumber').removeClass('borderRed');
+                        NumConverToBinary(nMum);
+                    }
+                }
+            });
+        });
+
+        function NumConverToBinary(_myNum) {
+            var AryBinary = [128, 64, 32, 16, 8, 4, 2, 1];
+            var strB = '';
+            for (i = 0; i <= AryBinary.length - 1; i += 1) {
+                if (_myNum - AryBinary[i] >= 0) {
+                    _myNum = _myNum - AryBinary[i];
+                    strB += 1;
+                } else {
+                    strB += 0;
+                }
+            }
+            $('#divShow').html('The binary is "' + strB + '"');
+        }  
+    </script> 
+</head>
+<body >
+    <br /><br />
+    <table class="Grid" >
+        <tr>
+            <th>
+                Number convert to Binary
+            </th>
+            <td>
+                <input id="TxtMyNumber" name="TxtMyNumber" style="width: 150px" type="text"/>
+                <input id="BtnConvert"  name="BtnConvert" class="btn" type="button" value="Convert" />                              
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><div id="divShow">Hello this world!</div></td>
+        </tr>
+    </table>    
+    <br />
+    
+</body>
+</html>
