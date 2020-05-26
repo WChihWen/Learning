@@ -16,7 +16,7 @@
             $('#BtnConvertToNumber').click(function () {
                 JsMsg.txtID = 'TxtMyBinary'; JsMsg.Msg = '';
                 var str = $('#' + JsMsg.txtID).val();
-                if (CheckText('2',str)) { BinaryConverToNum(str); $('#' + JsMsg.txtID).removeClass('borderRed');}
+                if (CheckText('2', str, JsMsg)) { BinaryConverToNum(str); $('#' + JsMsg.txtID).removeClass('borderRed'); }
             });
         });
 
@@ -25,21 +25,37 @@
         var AryNumber = [128, 64, 32, 16, 8, 4, 2, 1];
 
         // functions
-        function NumConverToBinary(_myNum) {            
+        function NumConverToBinary(_myNum) {
             var strB = '';
+            var nNum = _myNum;
+            //one way: minus
+            //from left to right
             for (i = 0; i <= AryNumber.length - 1; i += 1) {
-                if (_myNum - AryNumber[i] >= 0) {
-                    _myNum = _myNum - AryNumber[i];
+                if (nNum - AryNumber[i] >= 0) {
+                    nNum = nNum - AryNumber[i];
                     strB += 1;
                 } else {
                     strB += 0;
                 }
             }
-            $('#divShow').html('The binary is "' + strB + '"');
+            $('#divShow').html('1: The binary is "' + strB + '"');
+
+
+            //other way: number divided by 2
+            // from right to left
+            nNum = _myNum;
+            strB = '';
+            var nRmder = 0;
+            while (nNum >= 1) {
+                nRmder = (nNum % 2);
+                strB = nRmder + strB;
+                nNum = (nNum - nRmder) / 2;                
+            }
+            $('#divTest').html('2: The binary is "' + (_myNum == 0 ? 0 : strB) + '"');
         }
 
         function BinaryConverToNum(_str) {
-		//Desktop test!	
+            //2 to the 3rd power ==> Math.pow(2,3)
 
         }
 
@@ -66,9 +82,7 @@
                     break;
                 default:
             }
-        }
-
-          
+        }          
     </script> 
 </head>
 <body >
@@ -89,7 +103,10 @@
             </td>
         </tr>        
         <tr>
-            <td colspan="2"><div id="divShow">Hello this world!</div></td>
+            <td colspan="2">
+                <div id="divShow">Hello this world!</div>
+                <div id="divTest">Hello this world!</div>
+            </td>
         </tr>
     </table>    
     <br />
